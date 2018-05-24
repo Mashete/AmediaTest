@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TestCrudModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tRol">
+          <Key>
+            <PropertyRef Name="cod_rol" />
+          </Key>
+          <Property Name="cod_rol" Type="int" Nullable="false" />
+          <Property Name="txt_desc" Type="varchar" MaxLength="500" />
+          <Property Name="sn_activo" Type="int" />
+        </EntityType>
+        <EntityType Name="tUsers">
+          <Key>
+            <PropertyRef Name="cod_usuario" />
+          </Key>
+          <Property Name="cod_usuario" Type="int" Nullable="false" />
+          <Property Name="txt_user" Type="varchar" MaxLength="50" />
+          <Property Name="txt_password" Type="varchar" MaxLength="50" />
+          <Property Name="txt_nombre" Type="varchar" MaxLength="200" />
+          <Property Name="txt_apellido" Type="varchar" MaxLength="200" />
+          <Property Name="nro_doc" Type="varchar" MaxLength="50" />
+          <Property Name="cod_rol" Type="int" />
+          <Property Name="sn_activo" Type="int" />
+        </EntityType>
+        <Association Name="fk_user_rol">
+          <End Role="tRol" Type="Self.tRol" Multiplicity="0..1" />
+          <End Role="tUsers" Type="Self.tUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRol">
+              <PropertyRef Name="cod_rol" />
+            </Principal>
+            <Dependent Role="tUsers">
+              <PropertyRef Name="cod_rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TestCrudModelStoreContainer">
+          <EntitySet Name="tRol" EntityType="Self.tRol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tUsers" EntityType="Self.tUsers" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_user_rol" Association="Self.fk_user_rol">
+            <End Role="tRol" EntitySet="tRol" />
+            <End Role="tUsers" EntitySet="tUsers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TestCrudModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="cod_rol" />
+          </Key>
+          <Property Name="cod_rol" Type="Int32" Nullable="false" />
+          <Property Name="txt_desc" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="sn_activo" Type="Int32" />
+          <NavigationProperty Name="tUsers" Relationship="Self.fk_user_rol" FromRole="tRol" ToRole="tUsers" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="cod_usuario" />
+          </Key>
+          <Property Name="cod_usuario" Type="Int32" Nullable="false" />
+          <Property Name="txt_user" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="txt_password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="txt_nombre" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="txt_apellido" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="nro_doc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="cod_rol" Type="Int32" />
+          <Property Name="sn_activo" Type="Int32" />
+          <NavigationProperty Name="tRol" Relationship="Self.fk_user_rol" FromRole="tUsers" ToRole="tRol" />
+        </EntityType>
+        <Association Name="fk_user_rol">
+          <End Role="tRol" Type="TestCrudModel.Rol" Multiplicity="0..1" />
+          <End Role="tUsers" Type="TestCrudModel.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tRol">
+              <PropertyRef Name="cod_rol" />
+            </Principal>
+            <Dependent Role="tUsers">
+              <PropertyRef Name="cod_rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TestCrudEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Rols" EntityType="TestCrudModel.Rol" />
+          <EntitySet Name="Users" EntityType="TestCrudModel.User" />
+          <AssociationSet Name="fk_user_rol" Association="Self.fk_user_rol">
+            <End Role="tRol" EntitySet="Rols" />
+            <End Role="tUsers" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TestCrudModelStoreContainer" CdmEntityContainer="TestCrudEntities">
+          <EntitySetMapping Name="Rols">
+            <EntityTypeMapping TypeName="TestCrudModel.Rol">
+              <MappingFragment StoreEntitySet="tRol">
+                <ScalarProperty Name="cod_rol" ColumnName="cod_rol" />
+                <ScalarProperty Name="txt_desc" ColumnName="txt_desc" />
+                <ScalarProperty Name="sn_activo" ColumnName="sn_activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="TestCrudModel.User">
+              <MappingFragment StoreEntitySet="tUsers">
+                <ScalarProperty Name="cod_usuario" ColumnName="cod_usuario" />
+                <ScalarProperty Name="txt_user" ColumnName="txt_user" />
+                <ScalarProperty Name="txt_password" ColumnName="txt_password" />
+                <ScalarProperty Name="txt_nombre" ColumnName="txt_nombre" />
+                <ScalarProperty Name="txt_apellido" ColumnName="txt_apellido" />
+                <ScalarProperty Name="nro_doc" ColumnName="nro_doc" />
+                <ScalarProperty Name="cod_rol" ColumnName="cod_rol" />
+                <ScalarProperty Name="sn_activo" ColumnName="sn_activo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

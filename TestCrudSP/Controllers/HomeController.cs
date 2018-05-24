@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace TestCrudSP.Controllers
 {
+    [Authorize(Roles = "Administrador,Cliente")]
     public class HomeController : Controller
     {
         public ActionResult Index()

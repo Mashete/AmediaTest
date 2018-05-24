@@ -1,0 +1,70 @@
+﻿@model IEnumerable<TestCrudSP.Models.User>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.txt_user)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.txt_password)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.txt_nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.txt_apellido)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nro_doc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.sn_activo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tRol.txt_desc)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.txt_user)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.txt_password)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.txt_nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.txt_apellido)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.nro_doc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.sn_activo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tRol.txt_desc)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.cod_usuario }) |
+            @Html.ActionLink("Details", "Details", new { id=item.cod_usuario }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.cod_usuario })
+        </td>
+    </tr>
+}
+
+</table>
